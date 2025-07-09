@@ -26,17 +26,37 @@ export default function NewsSection() {
   const fetchNews = async () => {
     try {
       const response = await fetch('/api/news?limit=3')
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
       const data = await response.json()
-      setNews(data.news)
+      
+      if (data && data.news && Array.isArray(data.news)) {
+        setNews(data.news)
+      } else {
+        console.error('Invalid data format:', data)
+        setNews([])
+      }
     } catch (error) {
       console.error('Failed to fetch news:', error)
       // エラー時は静的データを使用
       try {
         const response = await fetch('/api/news/static?limit=3')
-        const data = await response.json()
-        setNews(data.news)
+        if (response.ok) {
+          const data = await response.json()
+          if (data && data.news && Array.isArray(data.news)) {
+            setNews(data.news)
+          } else {
+            setNews([])
+          }
+        } else {
+          setNews([])
+        }
       } catch (staticError) {
         console.error('Failed to fetch static news:', staticError)
+        setNews([])
       }
     } finally {
       setLoading(false)

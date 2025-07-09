@@ -37,9 +37,21 @@ export default function NewsPage() {
       params.append('limit', '9')
       
       const response = await fetch(`/api/news?${params}`)
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
       const data = await response.json()
-      setNews(data.news)
-      setTotalPages(data.pagination.totalPages)
+      
+      if (data && data.news && Array.isArray(data.news)) {
+        setNews(data.news)
+        setTotalPages(data.pagination?.totalPages || 1)
+      } else {
+        console.error('Invalid data format:', data)
+        setNews([])
+        setTotalPages(1)
+      }
     } catch (error) {
       console.error('Failed to fetch news:', error)
       // エラー時は静的データを使用
@@ -52,11 +64,23 @@ export default function NewsPage() {
         params.append('limit', '9')
         
         const response = await fetch(`/api/news/static?${params}`)
-        const data = await response.json()
-        setNews(data.news)
-        setTotalPages(data.pagination.totalPages)
+        if (response.ok) {
+          const data = await response.json()
+          if (data && data.news && Array.isArray(data.news)) {
+            setNews(data.news)
+            setTotalPages(data.pagination?.totalPages || 1)
+          } else {
+            setNews([])
+            setTotalPages(1)
+          }
+        } else {
+          setNews([])
+          setTotalPages(1)
+        }
       } catch (staticError) {
         console.error('Failed to fetch static news:', staticError)
+        setNews([])
+        setTotalPages(1)
       }
     } finally {
       setLoading(false)
