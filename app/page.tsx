@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import NewsSection from '@/components/NewsSection'
 
 export default function Home() {
   return (
@@ -87,48 +88,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">M&Aニュース</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <article className="bg-white border border-gray-200 overflow-hidden">
-              <div className="p-6">
-                <time className="text-sm text-gray-500">2024.01.15</time>
-                <h3 className="font-bold mt-2 mb-3">事業承継セミナー開催のお知らせ</h3>
-                <p className="text-gray-600 text-sm">
-                  中小企業経営者向けの事業承継セミナーを開催いたします。
-                </p>
-              </div>
-            </article>
-            <article className="bg-white border border-gray-200 overflow-hidden">
-              <div className="p-6">
-                <time className="text-sm text-gray-500">2024.01.10</time>
-                <h3 className="font-bold mt-2 mb-3">製造業のM&A成約事例</h3>
-                <p className="text-gray-600 text-sm">
-                  大阪府内の製造業において、事業承継型M&Aが成約しました。
-                </p>
-              </div>
-            </article>
-            <article className="bg-white border border-gray-200 overflow-hidden">
-              <div className="p-6">
-                <time className="text-sm text-gray-500">2024.01.05</time>
-                <h3 className="font-bold mt-2 mb-3">新年のご挨拶</h3>
-                <p className="text-gray-600 text-sm">
-                  新年あけましておめでとうございます。本年もよろしくお願いいたします。
-                </p>
-              </div>
-            </article>
-          </div>
-          <div className="text-center mt-8">
-            <Link
-              href="/news"
-              className="inline-block border-2 border-accent text-accent px-6 py-2 rounded hover:bg-accent hover:text-white transition-colors"
-            >
-              ニュース一覧を見る
-            </Link>
-          </div>
-        </div>
-      </section>
+      <NewsSection />
 
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
