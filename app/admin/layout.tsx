@@ -1,11 +1,33 @@
 'use client'
 
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
+
+  useEffect(() => {
+    // クライアントサイドで管理画面の有効状態をチェック
+    const checkAdminAccess = async () => {
+      try {
+        const response = await fetch('/api/admin/check')
+        const data = await response.json()
+        
+        if (data.nodeEnv === 'production' && data.adminEnabled === 'false') {
+          router.push('/')
+        }
+      } catch (error) {
+        console.error('Admin check failed:', error)
+      }
+    }
+    
+    checkAdminAccess()
+  }, [])
 
   const navigation = [
     { name: 'ダッシュボード', href: '/admin' },
