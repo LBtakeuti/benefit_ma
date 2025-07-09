@@ -36,11 +36,7 @@ export default function NewsPage() {
       params.append('page', currentPage.toString())
       params.append('limit', '9')
       
-      // Contentful APIを試し、失敗したら静的APIにフォールバック
-      let response = await fetch(`/api/news/contentful?${params}`)
-      if (!response.ok) {
-        response = await fetch(`/api/news/static?${params}`)
-      }
+      const response = await fetch(`/api/news?${params}`)
       const data = await response.json()
       setNews(data.news)
       setTotalPages(data.pagination.totalPages)

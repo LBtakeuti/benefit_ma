@@ -25,11 +25,7 @@ export default function NewsSection() {
 
   const fetchNews = async () => {
     try {
-      // Contentful APIを試し、失敗したら静的APIにフォールバック
-      let response = await fetch('/api/news/contentful?limit=3')
-      if (!response.ok) {
-        response = await fetch('/api/news/static?limit=3')
-      }
+      const response = await fetch('/api/news?limit=3')
       const data = await response.json()
       setNews(data.news)
     } catch (error) {
