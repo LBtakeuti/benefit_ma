@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/app/lib/prisma'
-import { verifyToken } from '@/app/lib/auth'
 
 export async function GET(request: NextRequest) {
   try {
@@ -42,60 +41,6 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: 'Failed to fetch news' },
-      { status: 500 }
-    )
-  }
-}
-
-export async function POST(request: NextRequest) {
-  try {
-    const token = request.headers.get('authorization')?.replace('Bearer ', '')
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    const decoded = verifyToken(token)
-    if (!decoded) {
-      return NextResponse.json(
-        { error: 'Invalid token' },
-        { status: 401 }
-      )
-    }
-
-    const { title, content, category, thumbnail, publishedAt } = await request.json()
-
-    const slug = title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '') + '-' + Date.now()
-
-    const news = await prisma.news.create({
-      data: {
-        title,
-        content,
-        category,
-        thumbnail,
-        slug,
-        publishedAt: publishedAt ? new Date(publishedAt) : new Date(),
-        authorId: decoded.userId
-      },
-      include: {
-        author: {
-          select: {
-            name: true,
-            email: true
-          }
-        }
-      }
-    })
-
-    return NextResponse.json(news, { status: 201 })
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to create news' },
       { status: 500 }
     )
   }
