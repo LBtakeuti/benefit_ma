@@ -102,6 +102,12 @@ export default function AdminLogin() {
               {loading ? 'ログイン中...' : 'ログイン'}
             </button>
           </div>
+          
+          <div className="text-center text-sm text-gray-600">
+            <p>テスト用認証情報:</p>
+            <p>Email: admin@example.com</p>
+            <p>Password: BenefitMA2024!@#$</p>
+          </div>
         </form>
       </div>
     </div>
