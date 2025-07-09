@@ -6,28 +6,6 @@ export const contentfulClient = createClient({
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN || '',
 })
 
-// ニュースエントリーの型定義
-export interface NewsEntry {
-  fields: {
-    title: string
-    content: string
-    category: 'その他' | 'M&A用語集' | '基礎知識'
-    thumbnail?: {
-      fields: {
-        file: {
-          url: string
-        }
-      }
-    }
-    publishedAt: string
-  }
-  sys: {
-    id: string
-    createdAt: string
-    updatedAt: string
-  }
-}
-
 // ニュースを取得
 export async function getNews(options?: {
   category?: string
@@ -51,10 +29,10 @@ export async function getNews(options?: {
     query['fields.category'] = options.category
   }
 
-  const entries = await contentfulClient.getEntries<NewsEntry>(query)
+  const entries = await contentfulClient.getEntries(query)
   
   return {
-    items: entries.items.map(item => ({
+    items: entries.items.map((item: any) => ({
       id: item.sys.id,
       title: item.fields.title,
       content: item.fields.content,
@@ -74,7 +52,7 @@ export async function getNews(options?: {
 
 // 単一のニュースを取得
 export async function getNewsById(id: string) {
-  const entry = await contentfulClient.getEntry<NewsEntry>(id)
+  const entry: any = await contentfulClient.getEntry(id)
   
   return {
     id: entry.sys.id,
