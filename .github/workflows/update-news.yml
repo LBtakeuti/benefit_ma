@@ -1,0 +1,49 @@
+name: Update News Content
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'ニュースタイトル'
+        required: true
+      content:
+        description: 'ニュース内容'
+        required: true
+      category:
+        description: 'カテゴリ'
+        required: true
+        type: choice
+        options:
+          - その他
+          - M&A用語集
+          - 基礎知識
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Add news to JSON
+        run: |
+          jq --arg title "${{ inputs.title }}" \
+             --arg content "${{ inputs.content }}" \
+             --arg category "${{ inputs.category }}" \
+             --arg date "$(date -u +%Y-%m-%dT%H:%M:%S.000Z)" \
+             '. += [{
+               "id": (. | length + 1),
+               "title": $title,
+               "content": $content,
+               "category": $category,
+               "thumbnail": null,
+               "publishedAt": $date
+             }]' data/news.json > temp.json
+          mv temp.json data/news.json
+      
+      - name: Commit changes
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add data/news.json
+          git commit -m "Add news: ${{ inputs.title }}"
+          git push

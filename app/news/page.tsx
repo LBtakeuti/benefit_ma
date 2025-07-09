@@ -36,12 +36,32 @@ export default function NewsPage() {
       params.append('page', currentPage.toString())
       params.append('limit', '9')
       
-      const response = await fetch(`/api/news?${params}`)
+      // Contentful APIを試し、失敗したら静的APIにフォールバック
+      let response = await fetch(`/api/news/contentful?${params}`)
+      if (!response.ok) {
+        response = await fetch(`/api/news/static?${params}`)
+      }
       const data = await response.json()
       setNews(data.news)
       setTotalPages(data.pagination.totalPages)
     } catch (error) {
       console.error('Failed to fetch news:', error)
+      // エラー時は静的データを使用
+      try {
+        const params = new URLSearchParams()
+        if (selectedCategory !== 'すべて') {
+          params.append('category', selectedCategory)
+        }
+        params.append('page', currentPage.toString())
+        params.append('limit', '9')
+        
+        const response = await fetch(`/api/news/static?${params}`)
+        const data = await response.json()
+        setNews(data.news)
+        setTotalPages(data.pagination.totalPages)
+      } catch (staticError) {
+        console.error('Failed to fetch static news:', staticError)
+      }
     } finally {
       setLoading(false)
     }
