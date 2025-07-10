@@ -1,10 +1,10 @@
 import { Metadata } from 'next'
-import AdminLayout from './components/AdminLayout'
+import SimpleAdminLayout from './components/SimpleAdminLayout'
 import { ToastProvider } from '@/app/components/ui/Toast'
 
 export const metadata: Metadata = {
-  title: 'BMAC 管理画面',
-  description: 'Benefit M&A Consultingの管理画面',
+  title: '管理画面',
+  description: '管理画面',
 }
 
 export default function AdminRootLayout({
@@ -14,7 +14,7 @@ export default function AdminRootLayout({
 }) {
   return (
     <>
-      <AdminLayout>{children}</AdminLayout>
+      <SimpleAdminLayout>{children}</SimpleAdminLayout>
       <ToastProvider />
     </>
   )

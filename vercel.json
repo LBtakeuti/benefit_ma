@@ -4,17 +4,12 @@
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "env": {
-    "NEXT_PUBLIC_ADMIN_ENABLED": "@next_public_admin_enabled",
     "NEXT_PUBLIC_SITE_URL": "@next_public_site_url"
   },
   "build": {
     "env": {
       "DATABASE_URL": "@database_url",
-      "DIRECT_URL": "@direct_url",
-      "JWT_SECRET": "@jwt_secret",
-      "CSRF_SECRET": "@csrf_secret",
-      "ADMIN_EMAIL": "@admin_email",
-      "ADMIN_PASSWORD": "@admin_password"
+      "DIRECT_URL": "@direct_url"
     }
   },
   "functions": {
@@ -24,49 +19,8 @@
     "app/api/news/[id]/route.ts": {
       "maxDuration": 10
     },
-    "app/api/auth/login/route.ts": {
-      "maxDuration": 10
-    },
     "app/api/categories/route.ts": {
       "maxDuration": 10
     }
-  },
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        }
-      ]
-    },
-    {
-      "source": "/admin/(.*)",
-      "headers": [
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; frame-ancestors 'none';"
-        }
-      ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/robots.txt",
-      "destination": "/api/robots"
-    }
-  ]
+  }
 }
