@@ -66,9 +66,7 @@ const nextConfig = {
 
   // Vercel向けの最適化
   experimental: {
-    serverComponentsExternalPackages: ['@prisma/client', 'prisma', 'bcryptjs'],
-    // ISRメモリキャッシュの設定
-    isrMemoryCacheSize: 0,
+    serverComponentsExternalPackages: ['@prisma/client', 'prisma', 'bcryptjs']
   },
 }
 

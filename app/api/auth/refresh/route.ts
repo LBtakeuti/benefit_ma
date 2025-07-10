@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-2024'
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const token = request.cookies.get('auth-token')?.value
 

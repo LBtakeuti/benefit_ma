@@ -15,8 +15,7 @@ export const newsFormSchema = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'スラッグは小文字英数字とハイフンのみ使用できます'),
   
   categoryId: z.string()
-    .min(1, 'カテゴリは必須です')
-    .transform((val) => parseInt(val)),
+    .min(1, 'カテゴリは必須です'),
   
   thumbnail: z.string()
     .url('有効なURLを入力してください')
@@ -27,7 +26,7 @@ export const newsFormSchema = z.object({
   
   publishedAt: z.string()
     .optional()
-    .transform((val) => val ? new Date(val).toISOString() : null),
+    .transform((val) => val ? new Date(val).toISOString() : undefined),
   
   tags: z.array(z.string()).optional()
 })
