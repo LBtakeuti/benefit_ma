@@ -2,10 +2,22 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  // 一時的に管理画面への制限を完全に無効化
+  const { pathname } = request.nextUrl
+
+  // Simple authentication check for admin routes
+  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+    const isAuthenticated = request.cookies.get('admin-auth')?.value === 'true'
+    
+    if (!isAuthenticated) {
+      const loginUrl = new URL('/admin/login', request.url)
+      loginUrl.searchParams.set('returnUrl', pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+  }
+
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: '/admin/:path*'
+  matcher: ['/admin/:path*']
 }

@@ -1,0 +1,17 @@
+{
+  "buildCommand": "npm run build",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "functions": {
+    "app/api/news/route.ts": {
+      "maxDuration": 10
+    },
+    "app/api/news/[id]/route.ts": {
+      "maxDuration": 10
+    },
+    "app/api/categories/route.ts": {
+      "maxDuration": 10
+    }
+  }
+}

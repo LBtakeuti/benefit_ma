@@ -52,7 +52,7 @@ export async function getNews(options?: {
 
 // 単一のニュースを取得
 export async function getNewsById(id: string) {
-  const entry: any = await contentfulClient.getEntry(id)
+  const entry = await contentfulClient.getEntry(id)
   
   return {
     id: entry.sys.id,
