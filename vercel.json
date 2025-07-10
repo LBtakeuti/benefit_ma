@@ -3,15 +3,6 @@
   "framework": "nextjs",
   "outputDirectory": ".next",
   "installCommand": "npm install",
-  "env": {
-    "NEXT_PUBLIC_SITE_URL": "@next_public_site_url"
-  },
-  "build": {
-    "env": {
-      "DATABASE_URL": "@database_url",
-      "DIRECT_URL": "@direct_url"
-    }
-  },
   "functions": {
     "app/api/news/route.ts": {
       "maxDuration": 10
